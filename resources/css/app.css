@@ -5,3 +5,8 @@
 * {
    font-family: "Nunito Sans", sans-serif;
 }
+
+.max-w-screen-md{
+   max-width: 768px;
+   margin: auto;
+}
