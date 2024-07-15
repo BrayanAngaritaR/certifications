@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\User\Enrollment;
 use Illuminate\Http\Request;
 
 class CheckUserController extends Controller
@@ -46,6 +47,10 @@ class CheckUserController extends Controller
 			->first();
 
 		if ($user) {
+			//Verificar los cursos del usuario
+			$enrollments = Enrollment::where('userid', $user->id)->get();
+
+			// dd($enrollments);
 			return redirect()->route('user.certifications.index');
 		} else {
 			return redirect()->route('user.not-user.index');
