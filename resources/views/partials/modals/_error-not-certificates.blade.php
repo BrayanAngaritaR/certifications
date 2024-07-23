@@ -12,16 +12,10 @@
       </div>
       <!-- Modal body -->
       <div class="p-4 md:p-5 space-y-4 text-center">
-         <h2 class="text-red-600 font-semibold text-xl">No estás registrado</h2>
+         <h2 class="text-red-600 font-semibold text-xl">No hay cursos asociados</h2>
          <p class="text-base leading-relaxed text-dark font-semibold mx-auto w-[360px] py-6">
-            Por favor revisa el tipo o número de documento, si no te invitamos a registrarte.
+            Por favor revisa el tipo o número de documento.
          </p>
-
-         <div class="py-10">
-            <a href="https://registrodatic.ciberpaz.gov.co/iniciacontic/" target="_blank" class="my-10 bg-[#E80046] px-10 rounded-full py-2.5 text-white">
-               Registrarse
-            </a>
-         </div>
       </div>
    </div>
 </div>

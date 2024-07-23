@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
@@ -15,13 +16,45 @@ class CertificationsController extends Controller
 	 */
 	public function index()
 	{
+		$api_search_url = env('API_SEARCH_URL');
 		$current_url = URL::current();
 		$api_search_key = Str::after($current_url, '&search_key=');
 		$document_number = Str::between($current_url, '&document_number=', '&');
 
-		$response = Http::get('https://sensibilizacion.ciberpaz.gov.co/web/v1/surveys/19/search-json?search_key=' . $api_search_key . '&search_value=' . $document_number);
+		$user = User::where('numero_documento', $document_number)
+			->first();
+
+		$response = Http::get($api_search_url . $api_search_key . '&search_value=' . $document_number);
 		$data_json = $response->json();
 		$certifications = collect();
+
+		// "id_registro" => 519140
+		// "tipo_servicio" => "Llegamos con TIC"
+		// "fecha" => "1979-04-09"
+		// "fecha_registro" => "2022-10-04"
+		// "hora_registro" => "17:09:39"
+		// "tipo_documento" => "Cédula de ciudadanía"
+		// "numero_documento" => "22645941"
+		// "nombre" => "ENAURIS"
+		// "apellido" => "OLIVEROS"
+		// "email" => "enaurisoliveros@gmail.com"
+		// "departamento" => 25
+		// "municipio" => 918
+		// "area" => "Zona urbana"
+		// "ocupacion" => "Estudiante"
+		// "celular" => "314342677"
+		// "sexo" => "Mujer"
+		// "genero" => "Femenino"
+		// "educacion" => "No registra"
+		// "etnia" => "Ninguna"
+		// "discapacidad" => "No registra"
+		// "estrato" => "No registra"
+		// "autorizacion_datos" => "Sí"
+		// "autorizo_envio_informacion" => "Sí"
+		// "formador" => 1
+		// "entidad_referida" => 1
+		// "date_created" => null
+		// "evento" => null
 
 		foreach ($data_json as $item) {
 			$certification = json_decode($item['json_answer'], true);

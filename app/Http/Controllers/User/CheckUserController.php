@@ -41,7 +41,7 @@ class CheckUserController extends Controller
 				$document_type = 'Tarjeta de identidad';
 				break;
 			default:
-			$short = 'ce';
+				$short = 'ce';
 				$document_type = 'Cedula de extranjería';
 				break;
 		}
@@ -50,14 +50,25 @@ class CheckUserController extends Controller
 			->where('tipo_documento', 'like', '%' . $document_type . '%')
 			->first();
 
+		$api_search_url = env('API_SEARCH_URL');
 		$api_search_key = env('API_SEARCH_KEY');
 
 		if ($user) {
-			return redirect()->route('user.certifications.index', [
-				'document_number' => $request->document_number, 
-				'document_type' => $short, 
-				'search_key' => $api_search_key
-			]);
+
+			$response = Http::get($api_search_url . $api_search_key . '&search_value=' . $request->document_number);
+			$data_json = $response->json();
+
+			if(count($data_json)> 0 ) {
+				return redirect()->route('user.certifications.index', [
+					'document_number' => $request->document_number,
+					'document_type' => $short,
+					'search_key' => $api_search_key
+				]);
+			} else {
+				return redirect()->route('user.not-certificates.index');
+			}
+
+			
 		} else {
 			return redirect()->route('user.not-user.index');
 		}
