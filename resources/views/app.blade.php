@@ -26,7 +26,7 @@
       <div class="">
          <div class="header-govco py-4 px-10">
             <a href="{{ url('/') }}" title="Ir al inicio">
-               <img src="{{ asset('img/logo.svg') }}" alt="Colombia potencia de vida" class="w-48">
+               <img src="{{ asset('img/logo.png') }}" alt="Colombia potencia de vida" class="w-8">
             </a>
          </div>
       </div>

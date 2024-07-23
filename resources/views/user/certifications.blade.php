@@ -45,11 +45,11 @@
                      {{ $certification->department }}
                   </td>
                   <td class="px-6 py-4">
-                     18/06/2024 23:56
+                     {{  date("d M Y", strtotime($certification->date)) }}
                   </td>
                   <td>
                      <!-- Modal toggle -->
-                     <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="block font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                     <button data-modal-target="certitificationModal{{ $loop->iteration }}" data-modal-toggle="certitificationModal{{ $loop->iteration }}" class="block font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                         <?xml version="1.0" encoding="utf-8"?>
                         <svg fill="#1C2033" width="18" height="18" version="1.1" id="lni_lni-more-alt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
                            <g>
@@ -61,7 +61,7 @@
                      </button>
 
                      <!-- Main modal -->
-                     <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                     <div id="certitificationModal{{ $loop->iteration }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-2xl max-h-full">
                            <!-- Modal content -->
                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 border-2 border-green-600">
@@ -70,7 +70,7 @@
                                  <h3 class="text-xl font-semibold text-red-500" style="color: #058641;">
                                     Por favor, verifica la información
                                  </h3>
-                                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="certitificationModal{{ $loop->iteration }}">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                     </svg>
@@ -90,51 +90,47 @@
                                     <p class="text-black font-semibold">
                                        Lugar del curso
                                     </p>
-                                    <p>Santa Rosa de cabal</p>
+                                    <p>{{ $certification->department }}</p>
                                  </div>
 
                                  <div class="mb-2">
                                     <p class="text-black font-semibold">
                                        Nombre 
                                     </p>
-                                    <p>Pepito Peréz García</p>
+                                    <p>{{ $certification->name }}</p>
                                  </div>
 
                                  <div class="mb-2">
                                     <p class="text-black font-semibold">
                                        Tipo de documento
                                     </p>
-                                    <p>Cédula de ciudadanía</p>
+                                    <p>{{ $certification->document_type }}</p>
                                  </div>
 
                                  <div class="mb-2">
                                     <p class="text-black font-semibold">
                                        Número de documento
                                     </p>
-                                    <p>193093883</p>
+                                    <p>{{ $certification->document_number }}</p>
                                  </div>
 
                                  <div class="mb-2">
                                     <p class="text-black font-semibold">
                                        Fecha del curso
                                     </p>
-                                    <p>14/06/2024 12:30pm</p>
+                                    <p>{{  date("d M Y", strtotime($certification->date)) }}</p>
                                  </div>
 
-                                 {{-- <div class="mb-2">
-                                    <p class="text-black font-semibold">
-                                       Objetivo del curso
-                                    </p>
-                                    <p>Explicar  los fundamentos básico de ciberseguridad y buenas prácticas en la web</p>
-                                 </div> --}}
-
-                                 <div class="flex justify-center mt-5">
+                                 {{-- <div class="flex justify-center mt-5">
                                     <button class="bg-orange-400 text-white font-bold px-5 py-2.5 rounded-lg">Actualizar información</button>
-                                 </div>
+                                 </div> --}}
                                  <div class="flex justify-center">
-                                    <button class="bg-green-600 text-white px-5 py-2.5 rounded-lg">
-                                       Descargar certificado
-                                    </button>
+                                    <form method="POST" action="{{ route('user.certification.download', [$certification->id, $certification->document_number]) }}">
+                                       @csrf
+                                       <button type="submit" class="bg-green-600 text-white px-5 py-2.5 rounded-lg">
+                                          Descargar certificado
+                                       </button>
+                                    </form>
                                  </div>
                               </div>
                            </div>

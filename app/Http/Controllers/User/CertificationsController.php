@@ -26,52 +26,25 @@ class CertificationsController extends Controller
 
 		$response = Http::get($api_search_url . $api_search_key . '&search_value=' . $document_number);
 		$data_json = $response->json();
+		
 		$certifications = collect();
-
-		// "id_registro" => 519140
-		// "tipo_servicio" => "Llegamos con TIC"
-		// "fecha" => "1979-04-09"
-		// "fecha_registro" => "2022-10-04"
-		// "hora_registro" => "17:09:39"
-		// "tipo_documento" => "Cédula de ciudadanía"
-		// "numero_documento" => "22645941"
-		// "nombre" => "ENAURIS"
-		// "apellido" => "OLIVEROS"
-		// "email" => "enaurisoliveros@gmail.com"
-		// "departamento" => 25
-		// "municipio" => 918
-		// "area" => "Zona urbana"
-		// "ocupacion" => "Estudiante"
-		// "celular" => "314342677"
-		// "sexo" => "Mujer"
-		// "genero" => "Femenino"
-		// "educacion" => "No registra"
-		// "etnia" => "Ninguna"
-		// "discapacidad" => "No registra"
-		// "estrato" => "No registra"
-		// "autorizacion_datos" => "Sí"
-		// "autorizo_envio_informacion" => "Sí"
-		// "formador" => 1
-		// "entidad_referida" => 1
-		// "date_created" => null
-		// "evento" => null
 
 		foreach ($data_json as $item) {
 			$certification = json_decode($item['json_answer'], true);
 
 			$certifications->push((object) [
+				'id' => $item['id'],
 				'date' => $certification['id'],
-				'name' => $certification['1719340555934'],
-				'document_number' => $certification['1719340565750'],
-				'document_type' => $certification['1719340584153'],
+				'name' => $user->nombre . ' ' . $user->apellido,
+				'document_number' => $user->numero_documento,
+				'document_type' => $user->tipo_documento,
 				'email' => $certification['1719340641698'],
-				'city' => $certification['1719340654349'],
 				'department' => $certification['1719340680118'],
 				'gender' => $certification['1719340768187'],
 			]);
 		}
 
-		return view('user.certifications', compact('certifications'));
+		return view('user.certifications', compact(['user', 'certifications']));
 	}
 
 	/**
