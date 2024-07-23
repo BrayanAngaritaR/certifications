@@ -9,16 +9,6 @@
          <h2 class="text-2xl font-bold mb-4 text-center text-[#040247]">Certificados</h2>
          @include('partials.forms._check-user')
       </div>
-
-      <!-- Modal toggle -->
-      <button data-modal-target="error-modal" data-modal-toggle="error-modal" class="block text-dark" type="button">
-         Abrir modal de error
-      </button>
-
-      <!-- Modal toggle -->
-      <button data-modal-target="no-courses-modal" data-modal-toggle="no-courses-modal" class="block text-dark" type="button">
-         Abrir modal de NO cursos
-      </button>
    </div>
 
    <!-- Error modal -->

@@ -13,7 +13,7 @@ Route::get('/users', function () {
 
 Route::get('/usuario-no-encontrado', [UserNotExistController::class, 'index'])->name('user.not-user.index');
 Route::post('/verificar-usuario', [CheckUserController::class, 'store'])->name('user.verify');
-Route::get('/certificaciones', [CertificationsController::class, 'index'])->name('user.certifications.index');
+Route::get('/certificaciones/document_type={document_type?}&document_number={document_number?}&search_key={search_key?}', [CertificationsController::class, 'index'])->name('user.certifications.index');
 
 Route::get('/', function () {
     return view('welcome');

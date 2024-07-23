@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\User\Enrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CheckUserController extends Controller
 {
@@ -32,26 +33,31 @@ class CheckUserController extends Controller
 	{
 		switch ($request->document_type) {
 			case 'cc':
+				$short = 'cc';
 				$document_type = 'Cedula de ciudadania';
 				break;
 			case 'ti':
+				$short = 'ti';
 				$document_type = 'Tarjeta de identidad';
 				break;
 			default:
+			$short = 'ce';
 				$document_type = 'Cedula de extranjería';
 				break;
 		}
 
-		$user = User::where('idnumber', $request->document_number)
-			->where('department', 'like', '%' . $document_type . '%')
+		$user = User::where('numero_documento', $request->document_number)
+			->where('tipo_documento', 'like', '%' . $document_type . '%')
 			->first();
 
-		if ($user) {
-			//Verificar los cursos del usuario
-			$enrollments = Enrollment::where('userid', $user->id)->get();
+		$api_search_key = env('API_SEARCH_KEY');
 
-			// dd($enrollments);
-			return redirect()->route('user.certifications.index');
+		if ($user) {
+			return redirect()->route('user.certifications.index', [
+				'document_number' => $request->document_number, 
+				'document_type' => $short, 
+				'search_key' => $api_search_key
+			]);
 		} else {
 			return redirect()->route('user.not-user.index');
 		}

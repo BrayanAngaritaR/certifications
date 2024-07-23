@@ -11,7 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'mdlapropiacion_user';
+    protected $table = 'tbl_usuarios_presenciales_temp';
+    // 'mdlapropiacion_user';
 
     /**
      * The attributes that are mass assignable.
