@@ -125,7 +125,7 @@
                                     <button class="bg-orange-400 text-white font-bold px-5 py-2.5 rounded-lg">Actualizar información</button>
                                  </div> --}}
                                  <div class="flex justify-center">
-                                    <form method="POST" action="{{ route('user.certification.download', [$certification->id, $certification->document_number]) }}">
+                                    <form method="POST" action="{{ route('user.certification.download', [$certification->id, $certification->document_number, date("d M Y", strtotime($certification->date))]) }}">
                                        @csrf
                                        <button type="submit" class="bg-green-600 text-white px-5 py-2.5 rounded-lg">
                                           Descargar certificado

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CertificationController extends Controller
 {
-	public function store(Request $request, $id, $document_number)
+	public function store(Request $request, $id, $document_number, $date)
 	{
 		//Almacenar el certificado la primera vez
 
@@ -16,6 +16,14 @@ class CertificationController extends Controller
 		$user = User::where('numero_documento', $document_number)
 			->first();
 
-		return view('user.certification.download', compact('user'));
+		$document_type = 'Cédula de ciudadanía';
+		$name = 'Certificado de prueba';
+
+		if($user){
+			$document_type = $user->tipo_documento;
+			$name = $user->nombre . ' ' . $user->apellido;
+		}
+
+		return view('user.certification.download', compact(['name', 'date', 'document_type', 'document_number']));
 	}
 }

@@ -28,23 +28,34 @@ class CertificationsController extends Controller
 		$data_json = $response->json();
 		
 		$certifications = collect();
+		$name = "Invitado";
+		$document_type = 'CC';
+
+		if($user) {
+			$name = $user->nombre . ' ' . $user->apellido;
+			$document_number = $user->numero_documento;
+			$document_number = $user->numero_documento;
+			$document_type = $user->tipo_documento;
+		}
 
 		foreach ($data_json as $item) {
 			$certification = json_decode($item['json_answer'], true);
 
 			$certifications->push((object) [
 				'id' => $item['id'],
-				'date' => $certification['id'],
-				'name' => $user->nombre . ' ' . $user->apellido,
-				'document_number' => $user->numero_documento,
-				'document_type' => $user->tipo_documento,
+				'date' => $item['created_at'],
+				'name' => $name,
+				'document_number' => $document_number,
+				'document_type' => $document_type,
 				'email' => $certification['1719340641698'],
 				'department' => $certification['1719340680118'],
 				'gender' => $certification['1719340768187'],
 			]);
 		}
 
-		return view('user.certifications', compact(['user', 'certifications']));
+		return view('user.certifications', compact([
+			'user', 'certifications'
+		]));
 	}
 
 	/**
